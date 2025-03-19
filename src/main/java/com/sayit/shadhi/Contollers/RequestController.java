@@ -20,15 +20,15 @@ public class RequestController {
     private final UserRepository userRepository;
 
     @PutMapping("/accept")
-    public ResponseEntity<GeneralStatus> AcceptRequest(@RequestParam long userId , @ModelAttribute UserDetails userDetails) {
+    public ResponseEntity<GeneralStatus> AcceptRequest(@RequestParam long userId , @RequestAttribute("userDetails")UserDetails userDetails) {
         return ResponseEntity.ok().body(requestsService.acceptPairRequest(userId , userDetails));
     }
     @GetMapping("/get/all")
-    public ResponseEntity<?> getAllRequest(@ModelAttribute("userId") UserDetails userDetails) {
+    public ResponseEntity<?> getAllRequest(@RequestAttribute("userDetails") UserDetails userDetails) {
         return ResponseEntity.ok().body(requestsService.getAllPairRequest(userDetails));
     }
     @PutMapping("/reject")
-    public ResponseEntity<GeneralStatus> RejectRequest(@RequestParam long userId , @ModelAttribute("userId") UserDetails userDetails) {
+    public ResponseEntity<GeneralStatus> RejectRequest(@RequestParam long userId , @RequestAttribute("userDetails") UserDetails userDetails) {
         return ResponseEntity.ok().body(requestsService.rejectRequestToPair(userId , userDetails));
     }
     @PutMapping("/birth-chart/")
@@ -36,9 +36,9 @@ public class RequestController {
         return null;
     }
 
-    @GetMapping("/give")
-    public ResponseEntity<GeneralStatus> giveRequestToGive( @ModelAttribute("userId") UserDetails userDetails){
-           return ResponseEntity.ok().body(requestsService.giveRequestToPair(2 , userDetails));
+    @PutMapping("/give")
+    public ResponseEntity<GeneralStatus> giveRequestToGive(@RequestParam long userId ,   @RequestAttribute("userDetails") UserDetails userDetails){
+           return ResponseEntity.ok().body(requestsService.giveRequestToPair(userId, userDetails));
     }
     @PostMapping("/give/chart/astrologer")
     public ResponseEntity<GeneralStatus> giveCharToAstroler(@RequestParam Long userId){
@@ -46,7 +46,7 @@ public class RequestController {
     }
 
     @GetMapping("/get/all/pairs")
-    public ResponseEntity<List<PairResponseDTO>> getAllPairForThePerson(@ModelAttribute("userId") UserDetails userDetails) {
+    public ResponseEntity<List<PairResponseDTO>> getAllPairForThePerson(@RequestAttribute("userDetails") UserDetails userDetails) {
         return ResponseEntity.ok().body(requestsService.getAllPairsForthePerson(userDetails));
     }
 

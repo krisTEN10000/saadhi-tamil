@@ -46,10 +46,11 @@ public class RequestsService implements RequestInterface {
     }
 
 
+    @Transactional
     public GeneralStatus rejectRequestToPair(long pairId , UserDetails userDetails) {
-        Optional<User> pairOptional = userRepository.findById(pairId);
-        User user = pairOptional.get();
-        user.getPairRequests().remove(userRepository.findByEmail(userDetails.getUsername()).get());
+        Optional<User> userOptional = userRepository.findByEmail(userDetails.getUsername());
+        User user = userOptional.get();
+        user.getPairRequests().remove(userRepository.findById(pairId).get());
         return GeneralStatus.REJECTED;
     }
 
