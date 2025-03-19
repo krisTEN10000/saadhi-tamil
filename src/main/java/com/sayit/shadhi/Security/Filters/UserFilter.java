@@ -29,7 +29,7 @@ public class UserFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String token = request.getHeader("bearer");
-        if(request.getRequestURI().startsWith("/auth")){
+         if(request.getRequestURI().startsWith("/auth")){
             filterChain.doFilter(request, response);
             return;
         }

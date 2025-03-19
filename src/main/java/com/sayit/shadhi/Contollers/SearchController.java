@@ -24,7 +24,7 @@ public class SearchController {
 
     private final AstrologyService astrologyService;
     @GetMapping("/get/pair")
-    public ResponseEntity<List<PersonResultDTO>> searchPair(@RequestBody PersonRequestDTO personRequestDTO , @ModelAttribute("userDetails") UserDetails user){
+    public ResponseEntity<List<PersonResultDTO>> searchPair(@RequestBody PersonRequestDTO personRequestDTO , @ModelAttribute("userId") UserDetails user){
         return ResponseEntity.ok().body(searchService.getMatchedPairForFilter(personRequestDTO));
     }
 

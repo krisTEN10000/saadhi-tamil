@@ -31,4 +31,10 @@ public class UserDetailsUpdateController {
     public ResponseEntity<String> updatePictures(){
         return null;
     }
+
+    @PutMapping("/send/verification/OTP")
+    public ResponseEntity<String> sendVerificationOTP(){
+        return null;
+    }
+
 }

@@ -38,7 +38,10 @@ public class RequestsService implements RequestInterface {
     public GeneralStatus giveRequestToPair(long pairId , UserDetails userDetails) {
         Optional<User> pairOptional = userRepository.findById(pairId);
         User user = pairOptional.get();
-        user.getPairRequests().add(userRepository.findByEmail(userDetails.getUsername()).get());
+        Optional<User> giverEntity = userRepository.findByEmail(userDetails.getUsername());
+        User userGiver = giverEntity.get();
+        userGiver.getPairRequests().add(user);
+
         return GeneralStatus.SENDED;
     }
 
@@ -75,7 +78,9 @@ public class RequestsService implements RequestInterface {
     }
 
     public List<PairResponseDTO> getAllPairsForthePerson(UserDetails userDetails) {
-        List<PairResponseDTO> pairResponseDTOList = userRepository.getAllPairs*
+        Optional<User> user = userRepository.findByEmail(userDetails.getUsername());
+        return userRepository.getAllPairsForUser(userDetails.getUsername());
     }
+
 
 }

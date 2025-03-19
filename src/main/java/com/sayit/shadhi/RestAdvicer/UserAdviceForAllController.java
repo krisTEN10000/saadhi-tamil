@@ -23,8 +23,8 @@ public class UserAdviceForAllController {
     @ModelAttribute("userDetails")
     public UserDetails getUserId(){
         SecurityAuthentication authentication =(SecurityAuthentication) SecurityContextHolder.getContext().getAuthentication();
-
         UserDetails userDetails =(UserDetailImp) authentication.getUserDetails();
         return userDetails;
     }
+
 }

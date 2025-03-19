@@ -36,9 +36,9 @@ public class RequestController {
         return null;
     }
 
-    @PutMapping("/give")
-    public ResponseEntity<GeneralStatus> giveRequestToGive(@RequestParam Long userId , @ModelAttribute("userId")UserDetails userDetails){
-           return ResponseEntity.ok().body(requestsService.giveRequestToPair(userId , userDetails));
+    @GetMapping("/give")
+    public ResponseEntity<GeneralStatus> giveRequestToGive( @ModelAttribute("userId") UserDetails userDetails){
+           return ResponseEntity.ok().body(requestsService.giveRequestToPair(2 , userDetails));
     }
     @PostMapping("/give/chart/astrologer")
     public ResponseEntity<GeneralStatus> giveCharToAstroler(@RequestParam Long userId){
@@ -47,7 +47,7 @@ public class RequestController {
 
     @GetMapping("/get/all/pairs")
     public ResponseEntity<List<PairResponseDTO>> getAllPairForThePerson(@ModelAttribute("userId") UserDetails userDetails) {
-        return ResponseEntity.ok().body(userRepository.getAllPairsForUser(userDetails.getUsername()));
+        return ResponseEntity.ok().body(requestsService.getAllPairsForthePerson(userDetails));
     }
 
 }
