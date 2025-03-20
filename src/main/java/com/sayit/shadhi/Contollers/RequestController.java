@@ -49,5 +49,9 @@ public class RequestController {
     public ResponseEntity<List<PairResponseDTO>> getAllPairForThePerson(@RequestAttribute("userDetails") UserDetails userDetails) {
         return ResponseEntity.ok().body(requestsService.getAllPairsForthePerson(userDetails));
     }
+    @DeleteMapping("/unpair")
+    public ResponseEntity<GeneralStatus> unpairUser(@RequestAttribute("userDetails") UserDetails userDetails ,@RequestParam Long userId){
+        return  ResponseEntity.ok(requestsService.unPairaPair(userId , userDetails));
+    }
 
 }

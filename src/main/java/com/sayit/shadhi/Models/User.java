@@ -1,5 +1,6 @@
 package com.sayit.shadhi.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -72,14 +74,17 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "paired_user_id")
     )
-    private Set<User> pairs = new HashSet<>();
+    @JsonIgnore
+    private Set<User> pairs;
+
     @ManyToMany
     @JoinTable(
             name = "pair_requests",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "requested_user_id")
     )
-    private Set<User> pairRequests = new HashSet<>();
+    @JsonIgnore
+    private Set<User> pairRequests;
 
     @OneToMany(mappedBy = "givenUser")
     private Set<ChartRequest> chartRequests;
@@ -99,5 +104,9 @@ public class User {
             religion = "NOT_PREFERED";
         }
     }
-    
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
+    }
+
 }

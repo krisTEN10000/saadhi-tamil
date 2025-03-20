@@ -56,10 +56,17 @@ public class RequestsService implements RequestInterface {
 
     @Transactional
     public GeneralStatus acceptPairRequest(long pairId , UserDetails userDetails) {
-        Optional<User> pairOptional = userRepository.findById(pairId);
-        User user = pairOptional.get();
-        user.getPairRequests().remove(userRepository.findByEmail(userDetails.getUsername()).get());
-        user.getPairs().add(userRepository.findByEmail(userDetails.getUsername()).get());
+//        Optional<User> pairOptional = userRepository.findById(pairId);
+//        User user = pairOptional.get();
+//        user.getPairRequests().remove(userRepository.findByEmail(userDetails.getUsername()).get());
+//        user.getPairs().add(userRepository.findByEmail(userDetails.getUsername()).get());
+
+        Optional<User> user = userRepository.findByEmail(userDetails.getUsername());
+        Optional<User> pairUser = userRepository.findById(pairId);
+        User pair  = pairUser.get();
+        User userEntity = user.get();
+        userEntity.getPairs().add(pair);
+        pair.getPairs().add(userEntity);
         return GeneralStatus.ACCEPTED;
     }
 
@@ -84,4 +91,11 @@ public class RequestsService implements RequestInterface {
     }
 
 
+    @Transactional
+    public GeneralStatus unPairaPair(Long userId , UserDetails userDetails){
+        Optional<User> userOptional = userRepository.findByEmail(userDetails.getUsername());
+        User user = userOptional.get();
+        user.getPairs().remove(userRepository.findById(userId).get());
+        return GeneralStatus.REMOVED;
+    }
 }
