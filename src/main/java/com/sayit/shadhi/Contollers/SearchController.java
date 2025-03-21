@@ -21,8 +21,8 @@ import java.util.List;
 public class SearchController {
 
     private final SearchService searchService;
-
     private final AstrologyService astrologyService;
+
     @GetMapping("/get/pair")
     public ResponseEntity<List<PersonResultDTO>> searchPair(@RequestBody PersonRequestDTO personRequestDTO , @ModelAttribute("userId") UserDetails user){
         return ResponseEntity.ok().body(searchService.getMatchedPairForFilter(personRequestDTO));
@@ -37,4 +37,5 @@ public class SearchController {
     public ResponseEntity<?> giveRequestToAstrologer(@RequestParam String userName ){
         return ResponseEntity.ok().body("");
     }
+
 }

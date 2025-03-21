@@ -1,6 +1,8 @@
 package com.sayit.shadhi.Utils;
 
+import com.sayit.shadhi.DTOs.AstrologerCreationDTO;
 import com.sayit.shadhi.DTOs.UserRegisterDTO;
+import com.sayit.shadhi.Models.Astrologer;
 import com.sayit.shadhi.Models.User;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,6 +29,18 @@ public class Mappers {
                 .subCaste(user.subCaste())
                 .religion(user.religion())
                 .dateOfBirth(user.dateOfBirth())
+                .build();
+    }
+
+
+    public Astrologer maptoAstrologer(AstrologerCreationDTO astrologerCreationDTO){
+        return  Astrologer
+                .builder()
+                .YOE(astrologerCreationDTO.getYOE())
+                .price(astrologerCreationDTO.getPrice())
+                .name(astrologerCreationDTO.getName())
+                .password(astrologerCreationDTO.getPassword())
+                .age(astrologerCreationDTO.getAge())
                 .build();
     }
 }

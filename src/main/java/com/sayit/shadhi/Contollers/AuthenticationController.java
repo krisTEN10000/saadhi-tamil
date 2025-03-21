@@ -47,9 +47,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up/astrologer")
-    public ResponseEntity<String> signupAsAstrologer(@RequestBody AstrologerCreationDTO astrologer) throws Exception {
-
-        return null;
+    public ResponseEntity<GeneralStatus> signupAsAstrologer(@RequestBody AstrologerCreationDTO astrologer) throws Exception {
+        return ResponseEntity.ok(authenticationService.signUpAsAstrologer(astrologer));
     }
 
     @PostMapping("/login/astrologer")

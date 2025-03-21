@@ -29,6 +29,7 @@ public class SearchService {
     private final UserRepository userRepository;
     private final AstrologerRepository astrologerRepository;
     private final ChartRequestRepository chartRequestRepository;
+
     public List<PersonResultDTO> getMatchedPairForFilter(PersonRequestDTO personRequestDTO){
         return userRepository.getUserBasedOnFilter(
                 personRequestDTO.ageFrom(),
@@ -46,7 +47,7 @@ public class SearchService {
     }
 
     @Transactional
-    public GeneralStatus giveAstrologerAChart(@ModelAttribute("userId")UserDetails userDetails , String pairId , Long AstrologerId){
+    public GeneralStatus giveAstrologerAChart(UserDetails userDetails , String pairId , Long AstrologerId){
         Optional<User> user = userRepository.findByEmail(userDetails.getUsername());
         Optional<User> pair = userRepository.findByEmail(pairId);
         Optional<Astrologer> astrologer = astrologerRepository.findById(AstrologerId);

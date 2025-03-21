@@ -24,7 +24,6 @@ public class AstrologyController {
 
     @GetMapping("/get/documents")
     public ResponseEntity<?> getAstrologyDocument(@RequestBody ChartRequestDTO chartRequestDTO){
-        Authentication authentication =  new ContextImplementation().getAuthentication();
         return ResponseEntity.ok().body(astrologyService.getChartdocuments(chartRequestDTO));
     }
 

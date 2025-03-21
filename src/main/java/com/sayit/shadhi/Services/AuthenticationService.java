@@ -19,6 +19,7 @@ import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -117,23 +118,14 @@ public class AuthenticationService {
         throw new RuntimeException("Not a valid OTP");
     }
 
-    public String signUpAsAstrologer(AstrologerCreationDTO astrologer) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        Astrologer astrologer1 = Astrologer
-                .builder()
-                .email(astrologer.getEmail())
-                .price(astrologer.getPrice())
-                .Certrificate(
-                        minioService.postImageToTheServer(astrologer.getCertrificate().getInputStream() , astrologer.getEmail().concat("_certrificate"))
-                )
-                .name(astrologer.getName())
-                .YOE(astrologer.getYOE())
-                .age(astrologer.getAge())
-                .password(
-                        passwordEncoder.encode(astrologer.getPassword())
-                )
-                .build();
-        astrologerRepository.save(astrologer1);
-        return "signed up as astrologer";
+    public GeneralStatus signUpAsAstrologer(AstrologerCreationDTO astrologer) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        Astrologer astro = mappers.maptoAstrologer(astrologer);
+        String value = redisService.getItem(astro.getEmail());
+        if(value.isBlank()){
+            throw new MailAuthenticationException("Verification time expired");
+        }
+        astrologerRepository.save(astro);
+        return GeneralStatus.SUCCESSFUL;
     }
     public String loginAsAstrologer(LoginDTO loginDTO) throws JsonProcessingException {
         Optional<Astrologer> astrologer = astrologerRepository.findByEmail(loginDTO.getUserName());
@@ -152,11 +144,8 @@ public class AuthenticationService {
         }else {
             throw new UsernameNotFoundException("User not found for this mail");
         }
-        return null;
+        throw new UsernameNotFoundException("User not found for this mail");
     }
 
-    public String validatePassword(){
-        return null;
-    }
 
 }
