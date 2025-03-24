@@ -46,13 +46,13 @@ public class AuthenticationController {
         return authenticationService.verifyOtp(mail , OTP);
     }
 
-    @PostMapping("/sign-up/astrologer")
+    @PostMapping("/signup/astrologer")
     public ResponseEntity<GeneralStatus> signupAsAstrologer(@RequestBody AstrologerCreationDTO astrologer) throws Exception {
         return ResponseEntity.ok(authenticationService.signUpAsAstrologer(astrologer));
     }
 
     @PostMapping("/login/astrologer")
-    public ResponseEntity<String> loginAsAstrologer(LoginDTO loginDTO) throws JsonProcessingException {
+    public ResponseEntity<String> loginAsAstrologer(@RequestBody LoginDTO loginDTO) throws JsonProcessingException {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(authenticationService.loginAsAstrologer(loginDTO));
     }
 

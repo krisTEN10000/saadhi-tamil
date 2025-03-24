@@ -1,10 +1,12 @@
 package com.sayit.shadhi.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sayit.shadhi.Enums.AstrologyStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.*;
 
 @AllArgsConstructor
 @Entity
@@ -26,7 +28,7 @@ public class ChartRequest {
     private User pair;
 
     @OneToMany(mappedBy = "chartRequest")
-    private List<ChartRating> chartRating;
+    private Set<ChartRating> chartRating = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -34,6 +36,11 @@ public class ChartRequest {
             joinColumns = @JoinColumn(name = "astrologer_id"),
             inverseJoinColumns = @JoinColumn(name = "chartrequest_id")
     )
-    private List<Astrologer> astrologers;
+    @JsonBackReference("defaultReference")
+    private Set<Astrologer> astrologers =  new HashSet<>();
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(requestID);
+    }
 }

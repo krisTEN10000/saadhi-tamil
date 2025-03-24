@@ -36,11 +36,12 @@ public class Mappers {
     public Astrologer maptoAstrologer(AstrologerCreationDTO astrologerCreationDTO){
         return  Astrologer
                 .builder()
-                .YOE(astrologerCreationDTO.getYOE())
+                .YOE(astrologerCreationDTO.getYoe())
                 .price(astrologerCreationDTO.getPrice())
                 .name(astrologerCreationDTO.getName())
                 .password(astrologerCreationDTO.getPassword())
                 .age(astrologerCreationDTO.getAge())
+                .email(astrologerCreationDTO.getEmail())
                 .build();
     }
 }

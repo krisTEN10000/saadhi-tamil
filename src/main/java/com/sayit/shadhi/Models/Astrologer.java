@@ -1,12 +1,17 @@
 package com.sayit.shadhi.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Astrologer {
+
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
      private long astrologerId;
@@ -33,6 +39,11 @@ public class Astrologer {
      private Float averageRating;
 
      @ManyToMany(mappedBy = "astrologers")
-     private Set<ChartRequest> chartRequests;
+     @JsonBackReference("defaultReference")
+     private Set<ChartRequest> chartRequests =  new HashSet<>();
 
+     @Override
+     public int hashCode() {
+          return Objects.hash(astrologerId);
+     }
 }

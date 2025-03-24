@@ -8,13 +8,13 @@ import com.sayit.shadhi.Enums.AstrologyStatus;
 import com.sayit.shadhi.Enums.GeneralStatus;
 import com.sayit.shadhi.Exceptions.ChartNotFoundException;
 import com.sayit.shadhi.Exceptions.SomethingWentWorngException;
-import com.sayit.shadhi.Models.Astrologer;
-import com.sayit.shadhi.Models.ChartRequest;
-import com.sayit.shadhi.Models.ChartRating;
+import com.sayit.shadhi.Models.*;
 import com.sayit.shadhi.Repositories.AstrologerRepository;
 import com.sayit.shadhi.Repositories.ChartRepository;
+import com.sayit.shadhi.Repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -29,7 +29,7 @@ public class AstrologyService {
 
     private final ChartRepository chartRepository;
     private final AstrologerRepository astrologerRepository;
-
+    private  final UserRepository userRepository;
     @Transactional
     public String getChartdocuments(ChartRequestDTO chartRequestDTO)throws ChartNotFoundException {
         List<InputStream> documents =  new ArrayList<>();
@@ -92,7 +92,19 @@ public class AstrologyService {
         throw new SomethingWentWorngException("Something went wrong");
     }
 
-    public String giveAChartRequestForAstrologer(){
-        return null;
+    @Transactional
+    public GeneralStatus giveChartToAstrologer(long pairId , UserDetails userDetails , long astrologerId) {
+        Optional<User> pairOptional = userRepository.findById(pairId);
+        User pairUser = pairOptional.get();
+        User givenUser =  userRepository.findByEmail(userDetails.getUsername()).get();
+        Astrologer astrologer = astrologerRepository.findById(astrologerId).get();
+        ChartRequest chartRequest =  ChartRequest
+                .builder()
+                .givenUser(givenUser)
+                .pair(pairUser)
+                .build();
+        chartRequest.getAstrologers().add(astrologer);
+        astrologer.getChartRequests().add(chartRequest);
+        return GeneralStatus.SENDED;
     }
 }

@@ -1,14 +1,20 @@
 package com.sayit.shadhi.DTOs;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class AstrologerCreationDTO {
     private String name;
     private String email;
     private int age;
-    private int YOE;
+    private int yoe;
     private MultipartFile certrificate;
     private double price;
     private String password;

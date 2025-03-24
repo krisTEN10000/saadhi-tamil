@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,11 +57,10 @@ public class SearchService {
         User pairSender = pair.get();
         ChartRequest chartRequest = ChartRequest
                 .builder()
-                .astrologers(List.of(astro))
                 .givenUser(chartSender)
                 .pair(pairSender)
                 .build();
-
+        chartRequest.getAstrologers().add(astro);
         astro.getChartRequests().add(chartRequest);
         return GeneralStatus.UPDATED;
     }
@@ -78,9 +78,9 @@ public class SearchService {
         return GeneralStatus.UPDATED;
     }
 
-    public List<ChartRating> getChartRatings(Long chartRequestId) {
-        ChartRequest chartRequest = chartRequestRepository.getOne(chartRequestId);
-        return chartRequest.getChartRating();
-    }
+//    public List<ChartRating> getChartRatings(Long chartRequestId) {
+//        ChartRequest chartRequest = chartRequestRepository.getOne(chartRequestId);
+//        return chartRequest.getChartRating();
+//    }
 
 }

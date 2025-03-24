@@ -74,16 +74,7 @@ public class RequestsService implements RequestInterface {
         return userRepository.getAllPairRequests(userDetails.getUsername());
     }
 
-    public GeneralStatus giveChartToAstrologer(long pairId , UserDetails userDetails) {
-        ChartRequest chartRequest = new ChartRequest();
-        Optional<User> pairOptional = userRepository.findById(pairId);
-        User user = pairOptional.get();
-        Chart bridechart =  user.getChart();
-        Chart groomChart =  userRepository.findByEmail(userDetails.getUsername()).get().getChart();
 
-        return null;
-
-    }
 
     public List<PairResponseDTO> getAllPairsForthePerson(UserDetails userDetails) {
         Optional<User> user = userRepository.findByEmail(userDetails.getUsername());

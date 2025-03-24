@@ -3,6 +3,7 @@ package com.sayit.shadhi.Contollers;
 import com.sayit.shadhi.DTOs.AstrologerPriceFilter;
 import com.sayit.shadhi.DTOs.ChartRequestDTO;
 import com.sayit.shadhi.DTOs.ChartScoreDTO;
+import com.sayit.shadhi.Enums.GeneralStatus;
 import com.sayit.shadhi.Exceptions.ChartNotFoundException;
 import com.sayit.shadhi.Models.Astrologer;
 import com.sayit.shadhi.Security.Authentication.ContextImplementation;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class AstrologyController {
     }
 
     @GetMapping("/get/all-astrologer")
-    public ResponseEntity<List<Astrologer>> getAllAstrologer(){
+    public ResponseEntity<List<Astrologer>> getAllAstrologer(@RequestAttribute("userDetails") UserDetails userDetails){
         return ResponseEntity.ok().body(astrologyService.getAllAstrologer());
     }
 
@@ -52,4 +54,8 @@ public class AstrologyController {
         return ResponseEntity.ok().body("Rating Successfully updated");
     }
 
+    @PostMapping("/give/chart/request")
+    public ResponseEntity<GeneralStatus> giveChartRequest(@RequestParam long userId , @RequestAttribute("userDetails") UserDetails userDetails , @RequestParam long astrologerId ){
+        return  ResponseEntity.ok(astrologyService.giveChartToAstrologer(userId , userDetails, astrologerId));
+    }
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @Data
 @Builder
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "chart_rating")
 public class ChartRating {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingId;
@@ -25,4 +28,8 @@ public class ChartRating {
     @ManyToOne
     private ChartRequest chartRequest;
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(ratingId);
+    }
 }

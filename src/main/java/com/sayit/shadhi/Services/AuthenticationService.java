@@ -59,7 +59,7 @@ public class AuthenticationService {
         return String.valueOf(otp);
     }
 
-    public String sendOtpForVerification(String email)throws UsernameNotFoundException{
+    public String  sendOtpForVerification(String email)throws UsernameNotFoundException{
         Optional<User> user = userRepository.findByEmail(email);
         Optional<Astrologer> astrologer = astrologerRepository.findByEmail(email);
         if(user.isPresent() || astrologer.isPresent()){
@@ -73,7 +73,7 @@ public class AuthenticationService {
         message.setSubject("Your OTP");
         message.setText(otp);
         mailSender.send(message);
-        return "Verification Email Sent to ${email}";
+        return "Verification Email Sent to ".concat(email);
     }
 
     public ResponseEntity<String> loginAsUser(LoginDTO loginDTO) throws UsernameNotFoundException, JsonProcessingException {
@@ -121,6 +121,7 @@ public class AuthenticationService {
     public GeneralStatus signUpAsAstrologer(AstrologerCreationDTO astrologer) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         Astrologer astro = mappers.maptoAstrologer(astrologer);
         String value = redisService.getItem(astro.getEmail());
+        astro.setPassword(passwordEncoder.encode(astro.getPassword()));
         if(value.isBlank()){
             throw new MailAuthenticationException("Verification time expired");
         }

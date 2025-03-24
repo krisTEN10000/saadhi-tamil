@@ -3,6 +3,7 @@ package com.sayit.shadhi.Repositories;
 
 import com.sayit.shadhi.DTOs.AstologerResponseDTO;
 import com.sayit.shadhi.Models.Astrologer;
+import com.sayit.shadhi.Models.ChartRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,9 @@ public interface AstrologerRepository extends JpaRepository<Astrologer , Long> {
 
      @Query("select new com.sayit.shadhi.DTOs.AstologerResponseDTO(astrologer.email , astrologer.name , astrologer.averageRating , astrologer.YOE , astrologer.price) from Astrologer astrologer")
      public List<AstologerResponseDTO> findAllAstrologers();
+
+//@Query("select new com.sayit.shadhi.DTOs.ChartResponseDTO( new com.sayit.shadhi.DTOs.PersonResultDTO(chart.givenUser.name , chart.givenUser.)) from Astrologer astro join astro.chartRequests chart where astro.astrologerId = :astrologerId")
+//     public List<ChartRequest> getChartRequestsOfAstrologer(@Param("astrologerId") Astrologer id);
+
+
 }
